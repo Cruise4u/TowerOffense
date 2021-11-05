@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Path : MonoBehaviour
 {
-    public Vector2[] wayPointArray;
+    public Vector2[] waypointArray;
     public LineRenderer pathLine;
+    public Queue<Vector2> waypointQueue;
 
     public void Start()
     {
@@ -19,12 +21,13 @@ public class Path : MonoBehaviour
     public void SetPath()
     {
         pathLine = GetComponent<LineRenderer>();
-        wayPointArray = new Vector2[pathLine.positionCount];
+        waypointArray = new Vector2[pathLine.positionCount];
+        waypointQueue = new Queue<Vector2>();
         for (int i = 0; i < pathLine.positionCount; i++)
         {
             Vector3 localToWorldPosition = transform.TransformPoint(pathLine.GetPosition(i));
-            wayPointArray[i] = localToWorldPosition;
+            waypointArray[i] = localToWorldPosition; 
+            waypointQueue.Enqueue(waypointArray[i]);
         }
     }
-
 }
